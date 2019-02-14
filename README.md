@@ -8,22 +8,40 @@ Collecting Event logs from one or multiple comoputers using either FilterXPath o
 
 ## Examples
 #query local computer for EventID 1309 for the last 7 days using pipelining
+
+```
 (Get-ADComputer $env:COMPUTERNAME ).Name | .\Collect-Event.ps1 -Verbose -ID 1309 -StartTime (Get-Date).AddDays(-7) -Logname application
+```
 
 #query Exchange mailbox servers for EventID 1309 for the last 7 days using pipelining
+
+```
 Get-MailboxServer | .\Collect-Event.ps1 -Verbose -ID 1309 -StartTime (Get-Date).AddDays(-7) -LogName application
+```
 
 #query Exchange mailbox servers for EventID 1309 for the last 7 days using multi threading and formating the output using pipelining
+
+```
 Get-MailboxServer | .\Collect-Event.ps1 -Verbose -ID 1309 -StartTime (Get-Date).AddDays(-7) -LogName application -MultiThread -FormatOutput
+```
 
 #query the first 3 EVTX files for EventIDs 1309,4999 on local computer using pipelining
+
+```
 Get-ChildItem C:\Windows\System32\winevt\Logs -Filter *.evtx | select -First 3 | .\Collect-Event.ps1 -Verbose -ID 1309,4999 -LogName Application
+```
 
 #query Application and System EVTX files for EventIDs 1309,4999 on local computer providing the files to parameter FilePath
+
+```
 .\Collect-Event.ps1 -Verbose -ID 1309,4999 -FilePath "C:\Windows\System32\winevt\Logs\Application.evtx","C:\Windows\System32\winevt\Logs\System.evtx"
+```
 
 #query Application and System log for any entries, which have a value of 4420 using XPath as filter
+
+```
 Get-MailboxServer | .\Collect-Event.ps1 -LogName System,Application -FilterXPath "*[EventData[Data[@Name]='4420']] or *[UserData/*/*='4420']" -Verbose -FormatOutput -MultiThread
+```
 
 ## Parameters
 
