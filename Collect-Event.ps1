@@ -148,6 +148,8 @@ param(
         ValueFromPipelineByPropertyName=$true,
         Position=1,
         ParameterSetName="Files")]
+    [Parameter(
+        ParameterSetName="XmlQuerySet")]
     [Alias('FullName')]
     [System.IO.FileInfo[]]
     $FilePath,
@@ -263,6 +265,8 @@ param(
         Mandatory=$false,
         Position=11,
         ParameterSetName="XmlQuerySet")]
+    [Parameter(
+        ParameterSetName="Files")]
     [System.String]
     $FilterXPath, #"*[EventData[Data[@Name]='bla']] or *[UserData/*/*='bla']"
 
@@ -656,6 +660,7 @@ Process
             {
                 #fix for duplicates when piping files
                 $objcol = @()
+                Write-Verbose "Processing file:$($FilePath)"
                 $objcol += Get-WinEvent @params @advparams
             }
             else
